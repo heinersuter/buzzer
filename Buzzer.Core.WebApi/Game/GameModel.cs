@@ -4,9 +4,14 @@ namespace Buzzer.Core.WebApi.Game
 {
     public class GameModel
     {
-        public string Name { get; set; }
+        public GameModel(string name)
+        {
+            Name = name;
+        }
 
-        public IEnumerable<string> Users { get; set; } = new List<string>();
+        public string Name { get; }
+
+        public ICollection<string> Users { get; set; } = new List<string>();
 
         public string Winner { get; set; }
     }
