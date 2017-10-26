@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Buzzer.Core.WebApi.Game
 {
@@ -9,6 +10,12 @@ namespace Buzzer.Core.WebApi.Game
     public class GameController : Controller
     {
         private static readonly List<GameModel> Games = new List<GameModel>();
+        private readonly IHubContext<GameHub> _hubContext;
+
+        public GameController(IHubContext<GameHub> hubContext)
+        {
+            _hubContext = hubContext;
+        }
 
         [HttpGet]
         public IEnumerable<GameModel> Get()
@@ -38,6 +45,9 @@ namespace Buzzer.Core.WebApi.Game
                 Games.Remove(existingGame);
             }
             Games.Add(game);
+
+            _hubContext.Clients.All.InvokeAsync("Send", game);
+
             return Ok();
         }
     }
