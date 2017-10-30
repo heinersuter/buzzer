@@ -19,6 +19,7 @@ namespace Buzzer.Core.WebApi.Game
         {
             _hubContext = hubContext;
             _logger = logger;
+            _logger.LogDebug("Game controller created.");
         }
 
         [HttpGet]
@@ -28,19 +29,13 @@ namespace Buzzer.Core.WebApi.Game
             return Games;
         }
 
-        [HttpGet("{gameName}")]
-        public GameModel Get(string gameName)
-        {
-            _logger.LogDebug($"Get game was called for '${gameName}.'");
-            return Games.FirstOrDefault(model => string.Equals(model.Name, gameName, StringComparison.OrdinalIgnoreCase));
-        }
-
         [HttpPut("{gameName}")]
         public IActionResult EnsureGameExists(string gameName)
         {
             var existingGame = Games.FirstOrDefault(model => string.Equals(model.Name, gameName, StringComparison.OrdinalIgnoreCase));
             if (existingGame == null)
             {
+                CleanOldGames();
                 var game = new GameModel(gameName);
                 Games.Add(game);
                 _logger.LogDebug($"{nameof(EnsureGameExists)}: Game created {gameName}.");
@@ -124,6 +119,14 @@ namespace Buzzer.Core.WebApi.Game
         private void Notify(GameModel game)
         {
             _hubContext.Clients.All.InvokeAsync(game.Name, game);
+        }
+
+        private void CleanOldGames()
+        {
+            var now = DateTime.Now;
+            var timeout = TimeSpan.FromHours(6);
+            var removedGames = Games.RemoveAll(game => now - game.Created > timeout);
+            _logger.LogDebug($"{nameof(CleanOldGames)}: {removedGames} games olther than {timeout} have been cleaned up.");
         }
     }
 }
