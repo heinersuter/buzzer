@@ -1,0 +1,13 @@
+button {
+  background: transparent;
+  border: none;
+  opacity: 0.9;
+  float: none;
+}
+button:focus {
+  outline: 0;
+  opacity: 1;
+}
+img {
+  width: 100%;
+}

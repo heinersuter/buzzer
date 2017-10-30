@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="app">
+
+    <h1>Buzzer</h1>
+
+    <div id="headerInfo">
+      <div *ngIf="buzzer.gameName" class="text-center">
+        <span class="user">Game:</span>
+        <span class="badge badge-primary">{{buzzer.gameName}}</span>
+      </div>
+
+      <div *ngIf="buzzer.allUsers && buzzer.allUsers.length > 0" class="text-center">
+        <span class="user">Users:</span>
+        <span *ngFor="let user of buzzer.allUsers" [ngClass]="{'user':true, 'badge':true, 'badge-primary': user === buzzer.userName, 'badge-secondary': user !== buzzer.userName}">
+          {{user}}
+        </span>
+      </div>
+    </div>
+
+    <router-outlet></router-outlet>
+
+  </div>
+</div>

@@ -1,0 +1,4 @@
+<form (ngSubmit)="reset()">
+  <h2 [ngClass]="{'red' : !buzzer.isWinner, 'green' : buzzer.isWinner}">Winner: {{buzzer.winner}}</h2>
+  <button #inputToFocus *ngIf="buzzer.isWinner" type="submit" class="btn btn-primary">Reset</button>
+</form>

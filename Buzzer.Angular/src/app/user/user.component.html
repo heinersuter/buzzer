@@ -1,0 +1,8 @@
+<form (ngSubmit)="continue()">
+  <div class="form-group">
+    <label for="userName">User name</label>
+    <input #inputToFocus type="text" class="form-control" id="userName" [(ngModel)]="userName" name="userName" aria-describedby="userNameHelp">
+    <small id="userNameHelp" class="form-text text-muted">Enter your unique user name.</small>
+  </div>
+  <button type="submit" class="btn btn-primary">Continue</button>
+</form>

@@ -1,0 +1,8 @@
+<form (ngSubmit)="continue()">
+  <div class="form-group">
+    <label for="gameName">Game name</label>
+    <input #inputToFocus type="text" class="form-control" id="gameName" name="gameName" [(ngModel)]="gameName" required aria-describedby="gameNameHelp">
+    <small id="gameNameHelp" class="form-text text-muted">Enter the unique name of your game.</small>
+  </div>
+  <button type="submit" class="btn btn-primary">Continue</button>
+</form>
